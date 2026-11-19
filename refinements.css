@@ -1,0 +1,204 @@
+/* Targeted V3 refinements after user review; original simulation remains unchanged. */
+
+/* Each round gets its own scene; the decision and meter feedback stay immediate. */
+.event-scene-intro{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:center;margin:0 0 24px}
+.event-scene-art{position:relative;margin:0;overflow:hidden;border-radius:8px;background:var(--paper)}
+.event-scene-art img{display:block;width:100%;height:auto;aspect-ratio:1672/941;object-fit:contain}
+.event-scene-art figcaption{position:absolute;right:8px;bottom:8px;padding:3px 7px;border-radius:3px;background:var(--paper-light);color:var(--red-dark);font:400 11px/1.5 var(--sans)}
+.event-scene-intro>.event-copy{margin:0;font-size:16px;line-height:1.9}
+@media(max-width:1100px){.event-scene-intro{grid-template-columns:1fr;gap:20px}.event-scene-art{max-width:560px;width:100%}}
+@media(max-width:820px){.event-scene-intro{grid-template-columns:1fr;gap:20px}.event-scene-art{max-width:100%}}
+@media(max-width:600px){.event-scene-intro{grid-template-columns:1fr;gap:18px}.event-scene-intro>.event-copy{font-size:16px}}
+
+/* The story cue belongs to the photograph, rather than its tall surrounding column. */
+.story-trigger .photo-frame{position:relative;display:block;width:fit-content;max-width:100%;align-self:center;margin-inline:auto;line-height:0;border-radius:8px;isolation:isolate}
+.story-trigger .photo-frame>img{display:block;width:auto;height:auto;max-width:100%;max-height:380px}
+.photo-stage.story-trigger:not(.sourced-photo){display:flex;flex-direction:column;justify-content:center;padding:28px 24px;background:var(--paper)}
+.photo-stage.story-trigger:not(.sourced-photo)::after{display:none}
+.photo-stage.story-trigger:not(.sourced-photo) img{position:static;width:auto;height:auto;max-height:380px;object-fit:contain;filter:none;opacity:1}
+.photo-stage.story-trigger:not(.sourced-photo) .photo-caption{position:static;margin-top:22px;font:400 23px/1.6 var(--serif);color:var(--red);text-shadow:none}
+.photo-stage.story-trigger:not(.sourced-photo) .photo-caption small{display:block;font:400 13px/1.8 var(--sans);color:var(--muted);margin-top:8px}
+.photo-hint.photo-story-hint{
+  position:absolute;inset:14px 14px auto auto;z-index:3;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  width:60px;height:60px;margin:0;padding:0;border:1px solid var(--paper-light);
+  border-radius:50%;background:var(--red);color:var(--paper-light);opacity:1;
+  font:400 11px/1.4 var(--sans);box-shadow:0 4px 14px #24252522;
+  pointer-events:none;transform:none;animation:none;
+}
+.photo-hint.photo-story-hint small{font-size:10px;opacity:.9}
+.photo-hint.photo-story-hint::before{
+  content:'';display:block;position:absolute;inset:-6px;border:1px solid var(--paper-light);
+  border-radius:50%;background:none;opacity:.55;pointer-events:none;
+}
+/* One quiet breath on entering view; scrolling away cancels it. */
+.photo-frame[data-story-visible] .photo-story-hint::before{animation:v3-story-breathe 3.2s ease-in-out 1}
+@keyframes v3-story-breathe{0%,100%{transform:scale(1);opacity:.45}50%{transform:scale(1.12);opacity:.95}}
+.story-trigger:hover .photo-hint.photo-story-hint,
+.story-trigger:focus-visible .photo-hint.photo-story-hint{background:var(--red-dark);transform:none}
+.story-trigger:hover .photo-story-hint::before,
+.story-trigger:focus-visible .photo-story-hint::before,
+body.modal-open .photo-story-hint::before,
+html[data-page-hidden] .photo-story-hint::before{animation-play-state:paused}
+
+/* Replace the tiny legacy compass glyph with real, derived chapter progress. */
+.route-card>.quiz-chapter-index{display:inline-flex;align-items:baseline;gap:8px;margin:0 0 20px;color:var(--red)}
+.quiz-chapter-index strong{font:500 32px/1.2 var(--sans);font-variant-numeric:tabular-nums}
+.quiz-chapter-index small{font:400 13px/1.5 var(--sans);color:var(--muted)}
+.route-card>p:first-of-type{margin:0 0 6px}
+.route-card>b{display:block;line-height:1.5}
+.route-card>p:nth-of-type(2){margin:18px 0 0}
+.route-card .mini-route{margin-top:24px}
+
+/* Map chrome uses the established paper/red system; source-map pixels stay intact. */
+.battle-player{border-color:var(--line);border-radius:12px;overflow:hidden;background:var(--paper-light);color:var(--ink)}
+.battle-heading{padding:26px 28px;border-color:var(--line);gap:24px}
+.battle-heading h3{font:400 30px/1.5 var(--serif);color:var(--ink)}
+.battle-heading p{font:400 14px/1.8 var(--sans);color:var(--muted);margin:8px 0 0}
+.battle-heading>span{font:400 13px/1.5 var(--sans);padding:8px 12px;background:var(--paper);border-radius:5px;color:var(--muted)}
+.battle-body{grid-template-columns:minmax(0,1fr) 280px}
+.battle-map-column{border-color:var(--line);background:var(--battle-paper)}
+.battle-map-tools{padding:16px 20px;background:var(--paper-light);gap:12px}
+.battle-map-tools>span{display:block;font:400 12px/1.7 var(--sans);color:var(--muted)}
+.battle-map-tools>div{gap:8px;flex-wrap:wrap}
+.battle-map-tools button,.battle-secondary,.battle-speed select{
+  border:1px solid var(--line);border-radius:6px;background:var(--paper-light);color:var(--ink);
+  min-height:44px;padding:10px 14px;font:400 14px/1.5 var(--sans);
+  transition:background .16s,border-color .16s,color .16s;
+}
+.battle-map-tools button[aria-pressed=true]{background:var(--paper);border-color:var(--red);color:var(--red)}
+.battle-map-wrap{min-height:0}
+.battle-map-key{padding:14px 20px;gap:20px;font:400 12px/1.8 var(--sans);color:var(--muted)}
+.battle-aside{padding:28px 24px;background:var(--paper);border-color:var(--line)}
+.battle-date{font:500 13px/1.8 var(--sans);color:var(--red);margin:0 0 18px}
+.battle-aside h4{font:400 30px/1.55 var(--serif);color:var(--red);margin:0 0 24px}
+.battle-itinerary{padding:16px 0;border-color:var(--line);font:500 14px/1.85 var(--sans);color:var(--ink)}
+.battle-explanation{font:400 15px/1.95 var(--sans);color:var(--ink);margin:22px 0}
+.battle-stop{padding-top:20px;font:400 13px/1.8 var(--sans);color:var(--red)}
+.battle-stop b{font:400 12px/1.8 var(--sans);color:var(--muted)}
+.battle-controls{padding:24px 28px;border-color:var(--line);background:var(--paper-light)}
+.battle-transport{gap:10px}
+.battle-player .battle-play{min-height:46px;padding:12px 20px;border:1px solid var(--red);border-radius:6px;background:var(--red);color:var(--paper-light);font:500 15px/1.5 var(--sans);transition:background .16s,border-color .16s}
+.battle-player .battle-secondary{font:400 14px/1.5 var(--sans)}
+.battle-play:disabled{opacity:.55;cursor:wait}
+.battle-secondary:disabled{opacity:.4;cursor:default}
+.battle-speed{font:400 13px/1.5 var(--sans);color:var(--muted);gap:10px}
+.battle-speed select{padding:8px 12px;cursor:pointer}
+.battle-progress{gap:18px;margin-top:22px}
+.battle-progress input{height:24px;accent-color:var(--red)}
+.battle-progress output{font:400 13px/1.6 var(--sans);color:var(--muted);min-width:90px}
+.battle-stages{gap:10px;padding:0 28px 24px;background:var(--paper-light);border:0}
+.battle-stage{padding:18px 16px;min-height:98px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--muted);transition:background .18s,border-color .18s,color .18s}
+.battle-stage:last-child{border-right:1px solid var(--line)}
+.battle-stage b{font:400 25px/1.5 var(--serif);color:var(--ink)}
+.battle-stage span{font:400 13px/1.7 var(--sans);margin-top:6px}
+.battle-stage[aria-current=step]{border-color:var(--red);background:var(--red);color:var(--paper-light)}
+.battle-stage[aria-current=step] b{color:var(--paper-light)}
+.battle-stage[aria-current=step]::before{display:none}
+.battle-followup{margin:0 28px 24px;padding:20px;border:1px solid var(--line);border-radius:8px;background:var(--paper);gap:24px}
+.battle-followup p{font:400 14px/1.85 var(--sans);color:var(--muted)}
+.battle-followup strong{font-weight:500;color:var(--ink)}
+.battle-followup button[aria-current=step]{color:var(--red);border-color:var(--red)}
+.battle-sources{padding:16px 28px;border-color:var(--line);font:400 13px/1.9 var(--sans);color:var(--muted)}
+.battle-sources summary{min-height:44px;display:list-item;align-content:center;cursor:pointer}
+.battle-sources a{color:var(--red)}
+.battle-player button:focus-visible,.battle-player input:focus-visible,.battle-player select:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.battle-player:fullscreen{padding:0;background:var(--paper-light);border-radius:0}
+@media(hover:hover) and (pointer:fine){
+  .battle-map-tools button:hover,.battle-secondary:not(:disabled):hover{background:var(--paper);border-color:var(--red);color:var(--red)}
+  .battle-play:not(:disabled):hover{background:var(--red-dark);border-color:var(--red-dark)}
+  .battle-stage:not([aria-current=step]):hover{border-color:var(--red);color:var(--red)}
+}
+
+/* Long closing prose reads in three generous rows, rather than narrow columns. */
+.completion-page{max-width:1240px}
+.completion-essay{padding:48px 56px 36px;border-radius:12px}
+.completion-film{max-width:860px}
+.completion-film-context{max-width:760px;margin-top:40px;line-height:2.05}
+.completion-film-context p{margin-bottom:22px}
+.completion-reading-arrow{margin:40px 0 52px}
+.completion-reflection-heading{margin-bottom:28px}
+.completion-reflection-heading>p{margin:12px 0 0}
+.completion-pillars{display:grid;grid-template-columns:1fr;max-width:960px;margin:0 auto;gap:0}
+.completion-pillar{display:grid;grid-template-columns:190px minmax(0,1fr);align-items:start;gap:48px;padding:40px 0;min-width:0}
+.completion-pillar+.completion-pillar{border-top:1px solid var(--line);padding-top:40px}
+.completion-pillar>header{text-align:left;margin:0}
+.completion-pillar h3{font:400 32px/1.5 var(--serif);margin:12px 0 8px}
+.completion-pillar>header p{font:400 14px/1.8 var(--sans);color:var(--muted);margin:0}
+.completion-pillar-number{color:var(--red);font:400 13px/1.6 var(--sans)}
+.completion-pillar-copy{min-width:0;max-width:680px}
+.completion-pillar-copy h4{font:500 17px/1.8 var(--sans);margin:0 0 20px;color:var(--ink)}
+.completion-pillar-copy>p{font:400 18px/2.05 var(--serif);margin:0 0 20px;color:var(--ink)}
+.completion-pillar-copy strong{font-weight:600;color:var(--ink)}
+.completion-pillar-copy>.completion-pillar-takeaway{margin:24px 0 0;padding:18px 0 0;border-top:1px solid var(--line)}
+.completion-answer{max-width:960px;margin:36px auto 0;padding-top:40px;border-top:1px solid var(--line)}
+.completion-answer-label{margin:12px 0 28px}
+.completion-answer-copy{max-width:760px;font:400 18px/2.05 var(--serif)}
+.completion-answer-copy p{margin-bottom:22px}
+.completion-history-sources{margin-top:36px;font-size:13px;line-height:1.9}
+.completion-history-sources summary{min-height:44px;align-content:center}
+
+@media(max-width:1050px){
+  .battle-body{grid-template-columns:minmax(0,1fr) 245px}
+  .battle-aside{padding:24px 20px}
+  .battle-aside h4{font-size:27px}
+  .battle-heading{padding:24px}
+  .completion-essay{padding:36px 32px 28px}
+  .completion-pillar{grid-template-columns:170px minmax(0,1fr);gap:32px}
+}
+@media(max-width:760px){
+  .photo-hint.photo-story-hint{inset:12px 12px auto auto;width:56px;height:56px}
+  .route-card{grid-template-columns:52px minmax(0,1fr);gap:3px 16px}
+  .route-card>.quiz-chapter-index{display:flex;flex-direction:column;align-items:center;gap:3px;grid-column:1;grid-row:1/4;align-self:start;margin:0;padding-top:3px}
+  .quiz-chapter-index strong{font-size:27px}
+  .quiz-chapter-index small{font-size:11px}
+  .route-card>p:first-of-type,.route-card>b,.route-card>p:nth-of-type(2){grid-column:2;margin:0}
+  .battle-body,.battle-player:fullscreen .battle-body{grid-template-columns:1fr}
+  .battle-heading{padding:22px 20px}
+  .battle-heading h3{font-size:26px}
+  .battle-heading p{font-size:13px}
+  .battle-heading>span{display:none}
+  .battle-map-tools{padding:16px;align-items:flex-start}
+  .battle-map-tools>div{width:100%;gap:8px}
+  .battle-map-tools button{padding:9px 12px;font-size:13px;flex:1}
+  .battle-map-column{border-right:0}
+  .battle-map-key{padding:12px 16px;gap:12px;font-size:11px}
+  .battle-aside{padding:24px 20px;border-top:1px solid var(--line)}
+  .battle-aside h4{font-size:29px;margin-bottom:18px}
+  .battle-explanation{font-size:15px;margin:18px 0}
+  .battle-stop{min-height:0;padding-top:10px}
+  .battle-controls{padding:20px 16px}
+  .battle-transport{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .battle-transport button{width:100%;padding:11px 8px;min-width:0;font-size:14px}
+  .battle-speed{grid-column:1/-1;justify-content:flex-end;margin:2px 0 0}
+  .battle-speed select{font-size:13px}
+  .battle-progress{gap:10px;margin-top:16px}
+  .battle-progress output{min-width:82px;font-size:12px}
+  .battle-stages{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 16px 20px}
+  .battle-stage,.battle-stage:nth-child(2),.battle-stage:nth-child(-n+2){border:1px solid var(--line);padding:16px 12px;min-height:94px}
+  .battle-stage[aria-current=step]{border-color:var(--red)}
+  .battle-stage b{font-size:24px}
+  .battle-stage span{font-size:12px}
+  .battle-followup{margin:0 16px 20px;padding:18px 16px;flex-direction:column;align-items:stretch;gap:16px}
+  .battle-followup p{font-size:13px}
+  .battle-followup button{width:100%;font-size:14px}
+  .battle-sources{padding:12px 20px;font-size:12px}
+  .completion-essay{padding:28px 20px 24px}
+  .completion-film-context{margin-top:30px}
+  .completion-reading-arrow{margin:32px 0 38px}
+  .completion-reflection-heading{margin-bottom:12px}
+  .completion-pillar,.completion-pillar+.completion-pillar{grid-template-columns:1fr;gap:24px;padding:30px 0}
+  .completion-pillar>header{display:grid;grid-template-columns:34px minmax(0,1fr);column-gap:10px}
+  .completion-pillar-number{grid-column:1;grid-row:1/3;align-self:center}
+  .completion-pillar h3{grid-column:2;font-size:29px;margin:0 0 4px}
+  .completion-pillar>header p{grid-column:2}
+  .completion-pillar-copy h4{font-size:16px;margin-bottom:16px}
+  .completion-pillar-copy>p{font-size:18px;line-height:2;margin-bottom:18px}
+  .completion-pillar-copy>.completion-pillar-takeaway{margin-top:20px;padding-top:16px}
+  .completion-answer{margin-top:20px;padding-top:32px}
+  .completion-answer-copy{font-size:18px;line-height:2}
+}
+@media(prefers-reduced-motion:reduce){
+  .photo-frame[data-story-visible] .photo-story-hint::before{animation:none}
+  .battle-player *{transition:none!important;animation:none!important}
+}
